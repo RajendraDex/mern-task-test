@@ -5,6 +5,7 @@ import { Token } from '../models';
 import { Mongoose, ObjectId } from 'mongoose';
 import { IUser, IToken } from '../models/interfaces';
 import { JWT } from '../../config/environment.config';
+import { ApiError } from '../utils/apiError.util';
 
 import { userService } from '../services/user.service';
 
@@ -85,14 +86,15 @@ class TokenService {
 	async checkToken(userId: ObjectId): Promise<void> {
 		const token = await Token.findOne({ user: userId });
 		if (!token) {
-			// throw new ApiError(httpStatus.NOT_FOUND, Message.tokenNotFound);
+			throw new ApiError(httpStatus.NOT_FOUND, 'Token not found');
 		}
 		const user = await userService.getUserById(userId);
 		if (!user) {
-			// throw new ApiError(httpStatus.NOT_FOUND, Message.userNotFound);
+			throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
 		}
-		// if (user.status === false) {
-		// 	// throw new ApiError(httpStatus.NOT_FOUND, Message.loginBlocked);
+		//! TODO: Uncomment this when user status is implemented
+		// if (user?.status === false) {
+		// 	throw new ApiError(httpStatus.NOT_FOUND, 'Login blocked');
 		// }
 	}
 }

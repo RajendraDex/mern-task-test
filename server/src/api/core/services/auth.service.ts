@@ -69,6 +69,9 @@ class AuthService {
 		return user;
 	}
 
+	async revokeRefreshToken(userId: ObjectId): Promise<void> {
+		await this.tokenService.removeToken(userId);
+	}
 
 }
 

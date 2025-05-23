@@ -3,6 +3,9 @@ import httpStatus from 'http-status';
 
 import { authService } from '../services/auth.service';
 import { email } from '../types/schemas';
+import { ObjectId } from 'mongoose';
+
+import { IRequest } from '../types/interfaces';
 
 /**
  * Manage incoming requests from api/{version}/auth
@@ -96,17 +99,12 @@ class AuthController {
 		}
 	}
 
-	// /**
-	//  * @description Logout user
-	//  *
-	//  * @param req Express request object derived from http.incomingMessage
-	//  * @param res Express response object
-	//  */
-	// @Safe()
-	// async logout(req: IUserRequest, res: IResponse): Promise<void> {
-	// 	await AuthService.revokeRefreshToken(req.user as User);
-	// 	res.locals.data = null;
-	// }
+
+	async logout(req: IRequest, res: Response): Promise<void> {
+		const userId = req.user._id as ObjectId;
+		await authService.revokeRefreshToken(userId);
+		res.status(httpStatus.OK).json({ status: httpStatus.OK, message: 'User logged out' });
+	}
 
 	// /**
 	//  * @description Login with an existing user or creates a new one if valid accessToken token

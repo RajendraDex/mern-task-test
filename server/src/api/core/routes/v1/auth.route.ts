@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express';
 import { Router } from '../../types/classes';
 import { Validator } from '../../middlewares/validator.middleware';
-// import { Guard } from '@middlewares/guard.middleware';
+import { authGuard } from '../../middlewares/guard.middleware';
 import { AuthController } from '../../controllers/auth.controller';
 import { register, login, refresh, oauthCb, confirm, requestPassword } from '../../validations/auth.validation';
-// import { ROLE } from '@enums';
+import { ROLE } from '../../types/enums';
 
 export class AuthRouter extends Router {
 
@@ -61,51 +61,6 @@ export class AuthRouter extends Router {
 			.route('/register')
 			.post(Validator.check(register), AuthController.register);
 
-		/**
-		 * @api {post} /auth/login Login
-		 * @apiDescription Get an accessToken.
-		 * @apiVersion 1.0.0
-		 * @apiName Login
-		 * @apiGroup Auth
-		 * @apiPermission public
-		 *
-		 * @apiUse BaseHeaderSimple
-		 *
-		 * @apiParam  (With credentials)  {String}            email     User email address
-		 * @apiParam  (With credentials)  {String{8..16}}     password  User password
-		 * @apiParam  (With API key)      {String{64..128}}   apikey    User apikey
-		 *
-		 * @apiParamExample {json} With credentials payload example
-		 * {
-		 *    "email": "john.doe@website.com",
-		 *    "password": "passw0rd"
-		 * }
-		 *
-		 * @apiParamExample {json} With API key payload example
-		 * {
-		 *    "apikey": "$2b$10$sYFWFtKOR1QKm8/z6TxhQOgXCxvpZ.L13Xv3Lx496rH.L.EhobhJS"
-		 * }
-		 *
-		 * @apiUse SuccessTokenWithUser
-		 *
-		 * @apiError (400 Bad Request)   InvalidEmail Email is required as valid email address.
-		 * @apiError (400 Bad Request)   InvalidPassword Password is required and must have length between 8 and 16 characters.
-		 * @apiUse BadRequest
-		 *
-		 * @apiError (401 Unauthorized)  Unauthorized Incorrect password.
-		 * @apiUse Unauthorized
-		 *
-		 * @apiError (404 Not Found)     UserNotfound API key or email address not found.
-		 * @apiUse NotFound
-		 *
-		 * @apiError (406 Not Acceptable)  Content-Type Content-Type header must be "application/json".
-		 * @apiError (406 Not Acceptable)  Origin Origin header must be "https://*".
-		 * @apiUse NotAcceptable
-		 *
-		 * @apiError (422 Unprocessable Entity) CorruptedUser Given user is not an instance of user.
-		 * @apiError (422 Unprocessable Entity) LostAccessToken Access token cannot be retrieved.
-		 * @apiUse UnprocessableEntity
-		 */
 		this.router
 			.route('/login')
 			.post(Validator.check(login), AuthController.login);
@@ -131,9 +86,9 @@ export class AuthRouter extends Router {
 		 * @apiError (422 Unprocessable Entity)  User  Given user is not an instance of user.
 		 * @apiUse UnprocessableEntity
 		 */
-		// this.router
-		// 	.route('/logout')
-		// 	.post(Guard.authorize([ROLE.admin, ROLE.user]), AuthController.logout);
+		this.router
+			.route('/logout')
+			.post(authGuard.authenticate, authGuard.authorize([ROLE.admin, ROLE.member]), AuthController.logout);
 
 		// /**
 		//  * @api {patch} /auth/confirm Confirm account
