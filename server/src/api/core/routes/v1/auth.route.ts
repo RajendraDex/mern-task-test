@@ -108,7 +108,7 @@ export class AuthRouter extends Router {
 		 */
 		this.router
 			.route('/login')
-		// .post(Validator.check(login), AuthController.login);
+			.post(Validator.check(login), AuthController.login);
 
 		/**
 		 * @api {post} /auth/logout Logout

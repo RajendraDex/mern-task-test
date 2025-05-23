@@ -2,6 +2,9 @@ import { User, } from '../models/user.model';
 import { IToken, IUser } from '../models/interfaces';
 import { userService } from './user.service';
 import { tokenService } from './token.service';
+import { ROLE } from '../types/enums/role.enum';
+import { ApiError } from '../utils/apiError.util';
+import httpStatus from 'http-status';
 import { ObjectId } from 'mongoose';
 
 
@@ -13,16 +16,27 @@ class AuthService {
 	constructor() { }
 
 	async register(userData: IUser): Promise<IUser | null> {
-		try {
-			const isExistEmail = await this.userService.getUserByEmail(userData.email);
-			if (isExistEmail) {
-				throw new Error('User already exists');
+		const count = await this.count();
+
+		if (!userData.role) {
+			userData.role = ROLE.member;
+			if (count === 0) {
+				userData.role = ROLE.admin;
 			}
-			const user = await this.userService.createUser(userData);
-			return user;
-		} catch (e) {
-			return null;
 		}
+		const isExistEmail = await this.userService.getUserByEmail(userData.email);
+
+
+		if (isExistEmail) {
+			throw new ApiError(httpStatus.CONFLICT, 'Email already exists');
+		}
+		const isUserNameExist = await this.userService.getUserByUsername(userData.username);
+
+		if (isUserNameExist) {
+			throw new ApiError(httpStatus.CONFLICT, 'Username already exists');
+		}
+		const user = await this.userService.createUser(userData);
+		return user;
 	}
 
 	async count(): Promise<number> {
@@ -46,18 +60,15 @@ class AuthService {
 		}
 	}
 
-
-	async login(email: string, password: string): Promise<IUser | null> {
-		try {
-			const user = await this.userService.getUserByEmail(email)
-			// if (!user || !(await user.comparePassword(password))) {
-			// 	return null;
-			// }
-			return user;
-		} catch (e) {
-			return null;
+	async login(email: string, password: string): Promise<IUser> {
+		const user = await User.findOne({ email });
+		if (!user || !user.comparePassword(password)) {
+			throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email or password');
 		}
+
+		return user;
 	}
+
 
 }
 

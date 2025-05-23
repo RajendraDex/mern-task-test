@@ -11,6 +11,7 @@ import { CorsOptions } from 'cors';
 import { ProxyRouter } from '../core/routes/v1';
 
 import { API_VERSION } from './environment.config';
+import { errorConverter, errorHandler } from '../core/utils/errorHandler.util';
 
 class ExpressConfiguration {
 	private static instance: ExpressConfiguration;
@@ -111,6 +112,9 @@ class ExpressConfiguration {
 				message: 'Not Found'
 			});
 		});
+
+		this.application.use(errorConverter);
+		this.application.use(errorHandler);
 
 		return this;
 	}

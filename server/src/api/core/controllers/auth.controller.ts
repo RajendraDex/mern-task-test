@@ -1,11 +1,8 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
+import httpStatus from 'http-status';
 
 import { authService } from '../services/auth.service';
-enum ROLE {
-	admin = 'admin',
-	member = 'member',
-	guest = 'guest',
-}
+import { email } from '../types/schemas';
 
 /**
  * Manage incoming requests from api/{version}/auth
@@ -35,54 +32,69 @@ class AuthController {
 	 * @param req Express request object derived from http.incomingMessage
 	 * @param res Express response object
 	 */
-	async register(req: Request, res: Response): Promise<void> {
+	async register(req: Request, res: Response, next: NextFunction): Promise<void> {
 		try {
-			const count = await authService.count();
-
-			if (!req.body.role) {
-				req.body.role = ROLE.member;
-				if (count === 0) {
-					req.body.role = ROLE.admin;
-				}
-			}
 
 			const user = await authService.register(req.body);
 
 			if (!user) {
-				res.status(400).json({ status: 'error', message: 'User registration failed' });
+				res.status(httpStatus.BAD_REQUEST).json({ status: httpStatus.BAD_REQUEST, message: 'User registration failed' });
 				return;
 			}
 			const token = await authService.generateTokenResponse(user);
 
 			if (!token) {
-				res.status(400).json({ status: 'error', message: 'Token generation failed' });
+				res.status(httpStatus.BAD_REQUEST).json({ status: httpStatus.BAD_REQUEST, message: 'Token generation failed' });
 				return;
+			}
+			const newUser = {
+				email: user.email,
+				username: user.username,
 			}
 			res.status(201).json(
 				{
-					status: 'ok',
-					message: 'User created',
-					data: { token, user }
+					status: httpStatus.CREATED,
+					message: 'User registered successfully',
+					data: { token, user: newUser }
 				}
 			)
 		} catch (e) {
-			console.error('Error in register:', e);
-			res.status(500).json({ status: 'error', message: 'Internal server error' });
+			next(e);
 		}
 	}
 
-	// /**
-	//  * @description Login with an existing user or creates a new one if valid accessToken token
-	//  *
-	//  * @param req Express request object derived from http.incomingMessage
-	//  * @param res Express response object
-	//  */
-	// @Safe()
-	// async login(req: Request, res: IResponse): Promise<void> {
-	// 	const { user, accessToken } = await UserRepository.findAndGenerateToken(req.body as ITokenOptions);
-	// 	const token = await AuthService.generateTokenResponse(user, accessToken);
-	// 	res.locals.data = { token, user };
-	// }
+	/**
+	 * @description Login with an existing user or creates a new one if valid accessToken token
+	 *
+	 * @param req Express request object derived from http.incomingMessage
+	 * @param res Express response object
+	 */
+	async login(req: Request, res: Response, next: NextFunction): Promise<void> {
+		try {
+			const { email, password } = req.body;
+			const user = await authService.login(email, password);
+
+			if (!user) {
+				res.status(httpStatus.UNAUTHORIZED).json({ status: httpStatus.UNAUTHORIZED, message: 'Invalid credentials' });
+				return;
+			}
+			const token = await authService.generateTokenResponse(user);
+
+			if (!token) {
+				res.status(httpStatus.BAD_REQUEST).json({ status: httpStatus.BAD_REQUEST, message: 'Token generation failed' });
+				return;
+			}
+			res.status(200).json(
+				{
+					status: httpStatus.OK,
+					message: 'User logged in',
+					data: { token, user: { email: user.email, username: user.username } }
+				}
+			)
+		} catch (e) {
+			next(e);
+		}
+	}
 
 	// /**
 	//  * @description Logout user

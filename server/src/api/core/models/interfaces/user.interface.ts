@@ -9,4 +9,5 @@ export interface IUser extends Document {
 	role: 'admin' | 'member';
 	createdAt: Date;
 	updatedAt: Date;
+	comparePassword(password: string): boolean;
 }

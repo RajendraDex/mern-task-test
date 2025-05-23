@@ -21,6 +21,13 @@ class UserService {
 		}
 		return user;
 	}
+	async getUserByUsername(username: string): Promise<IUser | null> {
+		const user = await User.findOne({ username }).lean().exec();
+		if (!user) {
+			return null;
+		}
+		return user;
+	}
 
 	async createUser(userData: IUser): Promise<IUser> {
 
