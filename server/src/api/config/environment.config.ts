@@ -11,6 +11,7 @@ class EnvironmentConfig {
 
 	private readonly envSchema = Joi.object({
 		NODE_ENV: Joi.string().valid('development', 'production', 'test', 'staging').default('development'),
+		API_VERSION: Joi.string().default('v1'),
 		PORT: Joi.number().default(4000),
 		HOST: Joi.string().default('localhost'),
 		SSL_IS_ACTIVE: Joi.boolean().default(false),
@@ -31,7 +32,10 @@ class EnvironmentConfig {
 		}),
 		MONGODB_OPTIONS: Joi.string().default('retryWrites=true&w=majority'),
 		JWT_SECRET: Joi.string().required(),
-		JWT_EXPIRES_IN: Joi.string().default('1h'),
+		JWT_ACCESS_EXPIRES_IN: Joi.string().default('60000'),
+		JWT_REFRESH_EXPIRES_IN: Joi.string().default('10'),
+		RESET_PASSWORD_EXPIRATION_MINUTES: Joi.number().default(10),
+
 		CORS_ORIGIN: Joi.string().default('*'),
 		RATE_LIMIT_MAX: Joi.number().default(100),
 		RATE_LIMIT_WINDOW_MS: Joi.number().default(15 * 60 * 1000),
@@ -87,6 +91,7 @@ const EnvConfig = EnvironmentConfig.getInstance();
 
 
 export const ENV = EnvConfig.get('NODE_ENV');
+export const API_VERSION = EnvConfig.get('API_VERSION');
 export const PORT = EnvConfig.get('PORT');
 export const JWT_SECRET = EnvConfig.get('JWT_SECRET');
 export const SSL = {
@@ -94,6 +99,16 @@ export const SSL = {
 	KEY: EnvConfig.get('SSL_KEY_PATH'),
 	CERT: EnvConfig.get('SSL_CERT_PATH'),
 }
+export const JWT = {
+	JWT_SECRET: EnvConfig.get('JWT_SECRET'),
+	ACCESS_TOKEN_EXPIRES_IN: EnvConfig.get('JWT_ACCESS_EXPIRES_IN'),
+	REFRESH_TOKEN_EXPIRES_IN: EnvConfig.get('JWT_REFRESH_EXPIRES_IN'),
+	RESET_PASSWORD_EXPIRATION_MINUTES: EnvConfig.get('RESET_PASSWORD_EXPIRATION_MINUTES'),
+}
+export const RATE_LIMIT = {
+	MAX: EnvConfig.get('RATE_LIMIT_MAX'),
+	WINDOW_MS: EnvConfig.get('RATE_LIMIT_WINDOW_MS'),
+};
 export const MONGODB_URL = EnvConfig.get('MONGODB_URI');
 export const MONGODB_OPTIONS = {
 	maxPoolSize: 20,

@@ -8,7 +8,7 @@ export abstract class Router {
   /**
    * @description Wrapped Express.Router
    */
-  router: ExpressRouter;
+  router: ExpressRouter = null as unknown as ExpressRouter;
 
   constructor() {
     this.router = ExpressRouter();

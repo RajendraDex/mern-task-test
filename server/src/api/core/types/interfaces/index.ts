@@ -3,6 +3,7 @@ import { IHTTPError } from './http-error.interface';
 import { IRequest } from './request.interface';
 import { IStorage } from './storage.interface';
 import { IUploadOptions } from './upload-options.interface';
+import { IRoute } from './route.interface';
 
 
 export {
@@ -11,5 +12,6 @@ export {
 	IRequest,
 	IStorage,
 	IUploadOptions,
+	IRoute
 
 }
