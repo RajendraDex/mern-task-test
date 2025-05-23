@@ -13,6 +13,10 @@ const taskSchema = new Schema<ITask>({
 		type: Schema.Types.ObjectId,
 		ref: 'User', required: true
 	},
+	assignee: {
+		type: Schema.Types.ObjectId,
+		ref: 'User', required: true
+	},
 	status: {
 		type: String,
 		enum: ['todo', 'in-progress', 'completed'],

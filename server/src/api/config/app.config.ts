@@ -9,6 +9,7 @@ import mongoSanitize from 'express-mongo-sanitize';
 import { CorsOptions } from 'cors';
 
 import { ProxyRouter } from '../core/routes/v1';
+import { apiMiddleware } from '../core/middlewares/api.middleware';
 
 import { API_VERSION } from './environment.config';
 import { errorConverter, errorHandler } from '../core/utils/errorHandler.util';
@@ -73,6 +74,8 @@ class ExpressConfiguration {
 
 		//* Prevent parameter pollution
 		this.application.use(hpp());
+
+		this.application.use(apiMiddleware);
 
 		//* Data sanitization against NoSQL query injection
 		// this.application.use(mongoSanitize());

@@ -6,6 +6,8 @@ import { IRoute } from '../../types/interfaces';
 import { AuthRouter } from './auth.route';
 // import { MediaRouter } from './media.route';
 // import { UserRouter } from './user.route';
+import { TaskRouter } from './task.route';
+import { ProjectRouter } from './project.route';
 
 /**
  * Load all application routes and plug it on main router
@@ -30,8 +32,8 @@ class ProxyRouter {
 		{ segment: '/auth/', provider: AuthRouter },
 		// { segment: '/medias/', provider: MediaRouter },
 		// { segment: '/users/', provider: UserRouter },
-		// { segment: '/project/', provider: UserRouter },
-		// { segment: '/task/', provider: UserRouter }
+		{ segment: '/project/', provider: ProjectRouter },
+		{ segment: '/task/', provider: TaskRouter }
 	];
 
 	private constructor() { }
