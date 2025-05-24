@@ -13,6 +13,7 @@ import {
 	Typography,
 	Avatar,
 	CssBaseline,
+	Paper,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useAuth } from '../../context/AuthContext';
@@ -60,92 +61,94 @@ const LoginPage: React.FC = () => {
 					alignItems: 'center',
 				}}
 			>
-				<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-					<LockOutlinedIcon />
-				</Avatar>
-				<Typography component="h1" variant="h5">
-					Sign in
-				</Typography>
-				{formik.status && (
-					<Typography color="error" sx={{ mt: 2 }}>
-						{formik.status}
+				<Paper elevation={3} sx={{ p: 4, width: '100%' }}>
+					<Avatar sx={{ m: 1, bgcolor: 'secondary.main', mx: 'auto' }}>
+						<LockOutlinedIcon />
+					</Avatar>
+					<Typography component="h1" variant="h5" align="center">
+						Sign in
 					</Typography>
-				)}
-				<Box
-					component="form"
-					onSubmit={formik.handleSubmit}
-					noValidate
-					sx={{ mt: 1 }}
-				>
-					<TextField
-						margin="normal"
-						required
-						fullWidth
-						id="email"
-						label="Email Address"
-						name="email"
-						autoComplete="email"
-						autoFocus
-						value={formik.values.email}
-						onChange={formik.handleChange}
-						error={formik.touched.email && Boolean(formik.errors.email)}
-						helperText={formik.touched.email && formik.errors.email}
-					/>
-					<TextField
-						margin="normal"
-						required
-						fullWidth
-						name="password"
-						label="Password"
-						type="password"
-						id="password"
-						autoComplete="current-password"
-						value={formik.values.password}
-						onChange={formik.handleChange}
-						error={formik.touched.password && Boolean(formik.errors.password)}
-						helperText={formik.touched.password && formik.errors.password}
-					/>
-					<FormControlLabel
-						control={
-							<Checkbox
-								name="remember"
-								color="primary"
-								checked={formik.values.remember}
-								onChange={formik.handleChange}
-							/>
-						}
-						label="Remember me"
-					/>
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						sx={{ mt: 3, mb: 2 }}
-						disabled={formik.isSubmitting}
+					{formik.status && (
+						<Typography color="error" sx={{ mt: 2, textAlign: 'center' }}>
+							{formik.status}
+						</Typography>
+					)}
+					<Box
+						component="form"
+						onSubmit={formik.handleSubmit}
+						noValidate
+						sx={{ mt: 1 }}
 					>
-						Sign In
-					</Button>
-					<Grid container>
-						<Grid
-						// item xs
+						<TextField
+							margin="normal"
+							required
+							fullWidth
+							id="email"
+							label="Email Address"
+							name="email"
+							autoComplete="email"
+							autoFocus
+							value={formik.values.email}
+							onChange={formik.handleChange}
+							error={formik.touched.email && Boolean(formik.errors.email)}
+							helperText={formik.touched.email && formik.errors.email}
+						/>
+						<TextField
+							margin="normal"
+							required
+							fullWidth
+							name="password"
+							label="Password"
+							type="password"
+							id="password"
+							autoComplete="current-password"
+							value={formik.values.password}
+							onChange={formik.handleChange}
+							error={formik.touched.password && Boolean(formik.errors.password)}
+							helperText={formik.touched.password && formik.errors.password}
+						/>
+						<FormControlLabel
+							control={
+								<Checkbox
+									name="remember"
+									color="primary"
+									checked={formik.values.remember}
+									onChange={formik.handleChange}
+								/>
+							}
+							label="Remember me"
+						/>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							sx={{ mt: 3, mb: 2 }}
+							disabled={formik.isSubmitting}
 						>
-							<Link to="/forgot-password" style={{ textDecoration: 'none' }}>
-								<Typography variant="body2" color="primary">
-									Forgot password?
-								</Typography>
-							</Link>
+							Sign In
+						</Button>
+						<Grid container>
+							<Grid
+							// item xs
+							>
+								<Link to="/forgot-password" style={{ textDecoration: 'none' }}>
+									<Typography variant="body2" color="primary">
+										Forgot password?
+									</Typography>
+								</Link>
+							</Grid>
+							<Grid
+							// item
+							>
+								<Link to="/register" style={{ textDecoration: 'none' }}>
+									<Typography variant="body2" color="primary">
+										Don't have an account? Sign Up
+									</Typography>
+								</Link>
+							</Grid>
 						</Grid>
-						<Grid
-						// item
-						>
-							<Link to="/register" style={{ textDecoration: 'none' }}>
-								<Typography variant="body2" color="primary">
-									Don't have an account? Sign Up
-								</Typography>
-							</Link>
-						</Grid>
-					</Grid>
-				</Box>
+					</Box>
+				</Paper>
 			</Box>
 		</Container>
 	);

@@ -24,7 +24,7 @@ const UserTasksTable: React.FC<UserTasksTableProps> = ({ data }) => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{data.map((user) => (
+						{data.length > 0 && data.map((user) => (
 							<TableRow key={user.userId}>
 								<TableCell component="th" scope="row">
 									{user.name}

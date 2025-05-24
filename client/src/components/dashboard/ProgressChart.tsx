@@ -11,6 +11,8 @@ interface ProgressChartProps {
 }
 
 const ProgressChart: React.FC<ProgressChartProps> = ({ data }) => {
+
+
 	const chartData = {
 		labels: data.map(item => item.title),
 		datasets: [
@@ -49,12 +51,19 @@ const ProgressChart: React.FC<ProgressChartProps> = ({ data }) => {
 	};
 
 	return (
-		<Box sx={{ p: 3, backgroundColor: 'background.paper', borderRadius: 2, boxShadow: 1 }}>
-			<Typography variant="h6" gutterBottom>
-				Project Progress
-			</Typography>
-			<Bar data={chartData} options={options} />
-		</Box>
+		<>
+			{
+				(!data || data.length === 0) ?
+					<div>loding...</div>
+					:
+					<Box sx={{ p: 3, backgroundColor: 'background.paper', borderRadius: 2, boxShadow: 1 }}>
+						<Typography variant="h6" gutterBottom>
+							Project Progress
+						</Typography>
+						<Bar data={chartData} options={options} />
+					</Box>
+			}
+		</>
 	);
 };
 

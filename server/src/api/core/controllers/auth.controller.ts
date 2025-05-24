@@ -116,7 +116,7 @@ class AuthController {
 	async logout(req: IRequest, res: Response): Promise<void> {
 		const userId = req.user._id as ObjectId;
 		await authService.revokeRefreshToken(userId);
-		res.status(httpStatus.OK).json({ status: httpStatus.OK, message: 'User logged out' });
+		res.status(httpStatus.NO_CONTENT).json({ status: httpStatus.OK, message: 'User logged out' });
 	}
 
 	// /**

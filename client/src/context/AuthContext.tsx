@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, AuthContextType } from '../types';
-import { login as apiLogin, register as apiRegister, getCurrentUser } from '../api/auth';
+import { login as apiLogin, register as apiRegister, logout as apiLogout, getCurrentUser } from '../api/auth';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -51,10 +51,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 		}
 	};
 
-	const logout = () => {
-		localStorage.removeItem('token');
-		setUser(null);
-		setToken(null);
+	const logout = async () => {
+		const data = await apiLogout();
+		if (data.status === 204) {
+			localStorage.removeItem('token');
+			setUser(null);
+			setToken(null);
+		} else {
+			throw new Error('Unable to logout');
+		}
 	};
 
 	const value = {

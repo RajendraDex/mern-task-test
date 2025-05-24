@@ -63,21 +63,27 @@ const DashboardPage: React.FC = () => {
 		<Box sx={{ p: 3 }}>
 			<Grid container spacing={3}>
 
-				{/* <Grid item xs={12} md={6} lg={3}>
+				<Grid
+				// item xs={12} md={6} lg={3}
+				>
 					<StatCard
 						title="Total Projects"
 						value={stats.totalProjects}
 						icon={<FolderIcon color="primary" />}
 					/>
 				</Grid>
-				<Grid item xs={12} md={6} lg={3}>
+				<Grid
+				// item xs={12} md={6} lg={3}
+				>
 					<StatCard
 						title="Total Tasks"
 						value={stats.totalTasks}
 						icon={<AssignmentIcon color="secondary" />}
 					/>
 				</Grid>
-				<Grid item xs={12} md={6} lg={3}>
+				<Grid
+				// item xs={12} md={6} lg={3}
+				>
 					<StatCard
 						title="Completed Tasks"
 						value={stats.completedTasks}
@@ -86,7 +92,9 @@ const DashboardPage: React.FC = () => {
 						color="success"
 					/>
 				</Grid>
-				<Grid item xs={12} md={6} lg={3}>
+				<Grid
+				// item xs={12} md={6} lg={3}
+				>
 					<StatCard
 						title="Overdue Tasks"
 						value={stats.overdueTasks}
@@ -95,11 +103,15 @@ const DashboardPage: React.FC = () => {
 					/>
 				</Grid>
 
-			
-				<Grid item xs={12} lg={8}>
-					<ProgressChart data={projectProgress} />
+
+				<Grid
+				// item xs={12} lg={8}
+				>
+					{projectProgress.length > 0 && <ProgressChart data={projectProgress} />}
 				</Grid>
-				<Grid item xs={12} lg={4}>
+				<Grid
+				// item xs={12} lg={4}
+				>
 					<StatCard
 						title="Team Members"
 						value={stats.teamMembers}
@@ -115,9 +127,12 @@ const DashboardPage: React.FC = () => {
 					</Box>
 				</Grid>
 
-				<Grid item xs={12}>
-					<UserTasksTable data={userStats} />
-				</Grid> */}
+				<Grid
+				// item 
+				// xs={12}
+				>
+					{userStats.length > 0 && <UserTasksTable data={userStats} />}
+				</Grid>
 			</Grid>
 		</Box>
 	);

@@ -29,6 +29,17 @@ export const login = async (email: string, password: string): Promise<ApiRespons
 		return { error: error.response?.data?.message || 'Login failed' };
 	}
 };
+export const logout = async (): Promise<ApiResponse<{ status: number }>> => {
+	try {
+		const response = await api.post('/auth/logout');
+
+		console.log("🚀 ---------- auth.ts:36 ---------- logout ---------- response:", response);
+
+		return response;
+	} catch (error: any) {
+		return { error: error.response?.data?.message || 'Logout failed' };
+	}
+};
 
 export const getCurrentUser = async (): Promise<ApiResponse<User>> => {
 	try {
