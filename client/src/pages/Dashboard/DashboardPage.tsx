@@ -68,7 +68,7 @@ const DashboardPage: React.FC = () => {
 				>
 					<StatCard
 						title="Total Projects"
-						value={stats.totalProjects}
+						value={stats.totalProjects || 0}
 						icon={<FolderIcon color="primary" />}
 					/>
 				</Grid>
@@ -77,7 +77,7 @@ const DashboardPage: React.FC = () => {
 				>
 					<StatCard
 						title="Total Tasks"
-						value={stats.totalTasks}
+						value={stats.totalTasks || 0}
 						icon={<AssignmentIcon color="secondary" />}
 					/>
 				</Grid>
@@ -86,7 +86,7 @@ const DashboardPage: React.FC = () => {
 				>
 					<StatCard
 						title="Completed Tasks"
-						value={stats.completedTasks}
+						value={stats.completedTasks || 0}
 						icon={<CheckCircleOutlineIcon color="success" />}
 						progress={(stats.completedTasks / stats.totalTasks) * 100}
 						color="success"
@@ -97,7 +97,7 @@ const DashboardPage: React.FC = () => {
 				>
 					<StatCard
 						title="Overdue Tasks"
-						value={stats.overdueTasks}
+						value={stats.overdueTasks || 0}
 						icon={<ErrorOutlineIcon color="error" />}
 						color="error"
 					/>
@@ -120,8 +120,8 @@ const DashboardPage: React.FC = () => {
 					<Box mt={3}>
 						<StatCard
 							title="Task Completion Rate"
-							value={`${Math.round((stats.completedTasks / stats.totalTasks) * 100)}%`}
-							progress={(stats.completedTasks / stats.totalTasks) * 100}
+							value={`${Math.round((stats.completedTasks / stats.totalTasks) * 100) || 0}%`}
+							progress={(stats.completedTasks / stats.totalTasks) * 100 || 0}
 							color="primary"
 						/>
 					</Box>

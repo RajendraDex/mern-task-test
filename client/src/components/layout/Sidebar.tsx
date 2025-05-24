@@ -37,6 +37,14 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerWidth, mobileOpen, handleDrawer
 					</ListItemIcon>
 					<ListItemText primary="Projects" />
 				</ListItem>
+				<ListItem
+					// button 
+					component={Link} to="/tasks">
+					<ListItemIcon>
+						<AssignmentIcon />
+					</ListItemIcon>
+					<ListItemText primary="Tasks" />
+				</ListItem>
 				{user?.role === 'admin' && (
 					<ListItem
 						//  button 
