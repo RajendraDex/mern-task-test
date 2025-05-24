@@ -33,6 +33,15 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onDelete }) => {
 										Created: {formatDate(project.createdAt)}
 									</Typography>
 									<Box>
+
+										<Button
+											component={Link}
+											to={`/projects/${project._id}/tasks`}
+											variant="outlined"
+											sx={{ mr: 1 }}
+										>
+											View Tasks
+										</Button>
 										<Button
 											component={Link}
 											to={`/projects/${project._id}`}

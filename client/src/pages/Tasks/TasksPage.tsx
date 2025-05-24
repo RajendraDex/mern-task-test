@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Box, Typography, Button } from '@mui/material';
 import TaskForm from '../../components/tasks/TaskForm';
 import TaskList from '../../components/tasks/TaskList';
-import { getTasksByProject, createTask, deleteTask, updateTaskStatus } from '../../api/tasks';
+import { createTask, deleteTask, updateTaskStatus, getTasksByProjectId } from '../../api/tasks';
 import { Task } from '../../types';
 import { useAuth } from '../../context/AuthContext';
 
@@ -23,9 +23,12 @@ const TasksPage: React.FC = () => {
 	const fetchTasks = async () => {
 		if (!projectId) return;
 		setLoading(true);
-		const { data, error } = await getTasksByProject(projectId);
+		const { data, error } = await getTasksByProjectId(projectId, { status: 'todo' });
+
+		console.log("🚀 ---------- TasksPage.tsx:28 ---------- fetchTasks ---------- data:", data);
+
 		if (data) {
-			setTasks(data);
+			setTasks(data.results);
 		} else {
 			console.error(error);
 		}

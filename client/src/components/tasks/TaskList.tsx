@@ -19,10 +19,10 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onDelete, onStatusChange }) 
 
 	return (
 		<Box>
-			{tasks.length === 0 ? (
+			{tasks?.length === 0 ? (
 				<Typography>No tasks found</Typography>
 			) : (
-				tasks.map((task) => (
+				tasks?.length > 0 && tasks.map((task) => (
 					<TaskCard
 						key={task._id}
 						task={task}

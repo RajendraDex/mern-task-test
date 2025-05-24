@@ -103,7 +103,7 @@ export class ProjectService {
 				.limit(limit)
 				.populate('members', 'username email')
 				.sort(sort),
-			Project.countDocuments(filter),
+			Project.countDocuments(filterObject),
 		]);
 
 		const pagination = customPagination(results, page, limit, total);
