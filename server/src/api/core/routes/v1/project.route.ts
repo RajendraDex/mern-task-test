@@ -2,7 +2,7 @@ import { Router } from '../../types/classes';
 import { authGuard } from '../../middlewares/guard.middleware';
 import { Validator } from '../../middlewares/validator.middleware';
 import { ProjectController } from '../../controllers/project.controller';
-import { createProject, updateProject } from '../../validations/project.validation';
+import { projectList, createProject, updateProject, assignMembers, removeMembers, getProject } from '../../validations/project.validation';
 import { ROLE } from '../../types/enums';
 
 export class ProjectRouter extends Router {
@@ -12,6 +12,14 @@ export class ProjectRouter extends Router {
 	}
 
 	define(): void {
+		/**
+		 * @api {post} /projects list Project
+		 * @apiGroup Projects
+		 * @apiPermission authenticated
+		 */
+		this.router
+			.route('/list')
+			.post(authGuard.authenticate, Validator.check(projectList), ProjectController.getProjectList);
 		/**
 		 * @api {post} /projects Create Project
 		 * @apiGroup Projects
@@ -27,12 +35,20 @@ export class ProjectRouter extends Router {
 		 * @apiPermission projectOwner
 		 */
 		this.router
-			.route('/:id')
+			.route('/:projectId')
 			.put(
 				authGuard.authenticate,
-				authGuard.authorize([ROLE.admin]),
+				authGuard.authorize([ROLE.admin, ROLE.member]),
 				Validator.check(updateProject),
 				ProjectController.update
+			);
+		this.router
+			.route('/:projectId')
+			.get(
+				authGuard.authenticate,
+				authGuard.authorize([ROLE.admin, ROLE.member]),
+				Validator.check(getProject),
+				ProjectController.getProject
 			);
 
 		/**
@@ -41,24 +57,38 @@ export class ProjectRouter extends Router {
 		 * @apiPermission projectOwner
 		 */
 		this.router
-			.route('/:id')
+			.route('/:projectId')
 			.delete(
 				authGuard.authenticate,
-				authGuard.authorize([ROLE.admin]),
+				authGuard.authorize([ROLE.admin, ROLE.member]),
 				ProjectController.remove
 			);
 
 		/**
-		 * @api {post} /projects/:id/members Assign Members
+		 * @api {post} /project/add-project-member/:id Assign Members
 		 * @apiGroup Projects
 		 * @apiPermission projectOwner
 		 */
 		this.router
-			.route('/:id/members')
+			.route('/add-project-member/:projectId')
 			.post(
 				authGuard.authenticate,
-				authGuard.authorize([ROLE.admin]),
+				authGuard.authorize([ROLE.admin, ROLE.member]),
+				Validator.check(assignMembers),
 				ProjectController.assignMembers
+			);
+		/**
+		 * @api {post} /project/remove-project-member/:id remove Members
+		 * @apiGroup Projects
+		 * @apiPermission projectOwner
+		 */
+		this.router
+			.route('/remove-project-member/:projectId')
+			.post(
+				authGuard.authenticate,
+				authGuard.authorize([ROLE.admin, ROLE.member]),
+				Validator.check(removeMembers),
+				ProjectController.removeMembers
 			);
 	}
 }
