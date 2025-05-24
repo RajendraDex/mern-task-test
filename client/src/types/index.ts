@@ -10,7 +10,7 @@ export interface User {
 
 export interface Project {
 	_id: string;
-	title: string;
+	name: string;
 	description: string;
 	owner: User;
 	teamMembers: User[];
@@ -91,6 +91,7 @@ export interface AddTeamMemberRequest {
 export interface RemoveTeamMemberRequest {
 	projectId: string;
 	userId: string;
+	members: string[]
 }
 
 

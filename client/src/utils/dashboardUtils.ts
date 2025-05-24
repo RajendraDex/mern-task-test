@@ -27,7 +27,7 @@ export const calculateProjectProgress = (projects: Project[], allTasks: Task[]) 
 
 		return {
 			projectId: project._id,
-			title: project.title,
+			title: project.name,
 			totalTasks,
 			completedTasks,
 			completionPercentage,

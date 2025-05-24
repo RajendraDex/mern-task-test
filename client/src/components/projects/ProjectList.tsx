@@ -21,7 +21,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onDelete }) => {
 							<CardContent>
 								<Box display="flex" justifyContent="space-between">
 									<Typography variant="h6" component="div">
-										{project.title}
+										{project.name}
 									</Typography>
 									<Chip label={project.owner.name} size="small" />
 								</Box>

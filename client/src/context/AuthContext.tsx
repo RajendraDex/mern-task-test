@@ -12,7 +12,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 	useEffect(() => {
 		const initializeAuth = async () => {
 			const storedToken = localStorage.getItem('token');
-			if (storedToken) {
+			const tokenExpireTime = localStorage.getItem('tokenExpireTime');
+
+			if (storedToken && tokenExpireTime && new Date(tokenExpireTime) > new Date()) {
 				try {
 					const { data: userData } = await getCurrentUser();
 					if (userData) {
@@ -21,7 +23,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 					}
 				} catch (error) {
 					localStorage.removeItem('token');
+					localStorage.removeItem('tokenExpireTime');
 				}
+			} else {
+				localStorage.removeItem('token');
+				localStorage.removeItem('tokenExpireTime');
 			}
 			setLoading(false);
 		};
@@ -31,12 +37,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 	const login = async (email: string, password: string) => {
 		const { data, error } = await apiLogin(email, password);
-
-
 		if (error || !data) {
 			throw new Error(error || 'Login failed');
 		}
-
 		const token = data.token?.access?.token;
 		localStorage.setItem('token', token);
 		localStorage.setItem('tokenExpireTime', data.token.access.expires);
@@ -55,6 +58,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 		const data = await apiLogout();
 		if (data.status === 204) {
 			localStorage.removeItem('token');
+			localStorage.removeItem('tokenExpireTime');
 			setUser(null);
 			setToken(null);
 		} else {

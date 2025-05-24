@@ -12,13 +12,13 @@ interface ProjectFormProps {
 
 const ProjectForm: React.FC<ProjectFormProps> = ({ initialValues, onSubmit, onCancel }) => {
 	const validationSchema = Yup.object({
-		title: Yup.string().required('Title is required'),
+		name: Yup.string().required('Title is required'),
 		description: Yup.string().required('Description is required'),
 	});
 
 	const formik = useFormik({
 		initialValues: initialValues || {
-			title: '',
+			name: '',
 			description: '',
 		},
 		validationSchema,
@@ -32,13 +32,13 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ initialValues, onSubmit, onCa
 			<Stack spacing={2}>
 				<TextField
 					fullWidth
-					id="title"
-					name="title"
+					id="name"
+					name="name"
 					label="Project Title"
-					value={formik.values.title}
+					value={formik.values.name}
 					onChange={formik.handleChange}
-					error={formik.touched.title && Boolean(formik.errors.title)}
-					helperText={formik.touched.title && formik.errors.title}
+					error={formik.touched.name && Boolean(formik.errors.name)}
+					helperText={formik.touched.name && formik.errors.name}
 				/>
 				<TextField
 					fullWidth

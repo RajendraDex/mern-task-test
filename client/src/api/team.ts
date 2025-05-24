@@ -3,8 +3,8 @@ import { TeamMember, AddTeamMemberRequest, RemoveTeamMemberRequest, ApiResponse 
 
 export const getTeamMembers = async (projectId: string): Promise<ApiResponse<TeamMember[]>> => {
 	try {
-		const response = await api.get(`/projects/${projectId}/team`);
-		return { data: response.data };
+		const response = await api.get(`/project/get-project-team/${projectId}`);
+		return { data: response.data?.members };
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to fetch team members' };
 	}
@@ -14,7 +14,7 @@ export const addTeamMember = async (
 	request: AddTeamMemberRequest
 ): Promise<ApiResponse<TeamMember>> => {
 	try {
-		const response = await api.post(`/projects/${request.projectId}/team`, {
+		const response = await api.post(`/project/add-project-member/${request.projectId}`, {
 			userId: request.userId,
 			role: request.role,
 		});
@@ -28,7 +28,7 @@ export const removeTeamMember = async (
 	request: RemoveTeamMemberRequest
 ): Promise<ApiResponse<void>> => {
 	try {
-		await api.delete(`/projects/${request.projectId}/team/${request.userId}`);
+		await api.post(`/project/remove-project-member/${request.projectId}`, request.members);
 		return { message: 'Team member removed successfully' };
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to remove team member' };

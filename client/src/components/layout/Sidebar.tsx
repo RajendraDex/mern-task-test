@@ -49,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerWidth, mobileOpen, handleDrawer
 				)}
 			</List>
 			<Divider />
-			<List>
+			{/* <List>
 				<ListItem
 					// button 
 					component={Link} to="/settings">
@@ -58,7 +58,7 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerWidth, mobileOpen, handleDrawer
 					</ListItemIcon>
 					<ListItemText primary="Settings" />
 				</ListItem>
-			</List>
+			</List> */}
 		</div>
 	);
 

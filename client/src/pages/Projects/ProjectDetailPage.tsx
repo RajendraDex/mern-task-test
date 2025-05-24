@@ -55,14 +55,14 @@ const ProjectDetailPage: React.FC = () => {
 
 	// Add this effect to fetch available users
 	useEffect(() => {
-		const fetchAvailableUsers = async () => {
-			const { data } = await getAllUsers();
-			if (data) {
-				setAvailableUsers(data);
-			}
-		};
+		// const fetchAvailableUsers = async () => {
+		// 	const { data } = await getAllUsers();
+		// 	if (data) {
+		// 		setAvailableUsers(data);
+		// 	}
+		// };
 
-		fetchAvailableUsers();
+		// fetchAvailableUsers();
 	}, []);
 
 	// Add these handlers
@@ -77,7 +77,7 @@ const ProjectDetailPage: React.FC = () => {
 
 	const handleRemoveTeamMember = async (userId: string) => {
 		if (!id) return;
-		const { error } = await removeTeamMember({ projectId: id, userId });
+		const { error } = await removeTeamMember({ projectId: id, members: [userId], userId });
 		if (!error) {
 			setTeamMembers(teamMembers.filter(member => member._id !== userId));
 		}
@@ -136,7 +136,7 @@ const ProjectDetailPage: React.FC = () => {
 				) : (
 					<>
 						<Box display="flex" justifyContent="space-between" alignItems="center">
-							<Typography variant="h4">{project.title}</Typography>
+							<Typography variant="h4">{project.name}</Typography>
 							{isOwner && (
 								<Box>
 									<Button
@@ -178,7 +178,7 @@ const ProjectDetailPage: React.FC = () => {
 						}
 
 						<Typography variant="subtitle1" color="text.secondary" mt={1}>
-							Owned by: {project.owner.name}
+							Owned by: {project.owner.username}
 						</Typography>
 
 						<Divider sx={{ my: 3 }} />
@@ -187,42 +187,27 @@ const ProjectDetailPage: React.FC = () => {
 							{project.description}
 						</Typography>
 
-						<Box mt={3}>
+						{/* <Box mt={3}>
 							<Typography variant="h6">Team Members</Typography>
 							<Stack direction="row" spacing={1} mt={1}>
-								{project.teamMembers.map((member) => (
-									<Chip key={member._id} label={member.name} />
+								{project?.teamMembers?.length > 0 && project.teamMembers.map((member) => (
+									<Chip key={member._id} label={member.username} />
 								))}
 							</Stack>
-						</Box>
+							</Box> */}
+						<TeamMemberList
+							members={teamMembers}
+							currentUserId={user?._id || ''}
+							isOwner={isOwner}
+							onRoleChange={handleRoleChange}
+							onRemove={handleRemoveTeamMember}
+						/>
 					</>
 				)}
 			</Box>
 
-			<TeamMemberList
-				members={teamMembers}
-				currentUserId={user?._id || ''}
-				isOwner={isOwner}
-				onRoleChange={handleRoleChange}
-				onRemove={handleRemoveTeamMember}
-			/>
 		</>
 	);
 };
 
 export default ProjectDetailPage;
-
-
-// Add these imports
-
-
-// Add these states
-
-
-// Add this effect to fetch team members
-
-
-// Add this to the return statement (after the team members section)
-
-
-// Update the Team Members section to use TeamMemberList

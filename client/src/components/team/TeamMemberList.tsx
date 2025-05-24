@@ -51,7 +51,7 @@ const TeamMemberList: React.FC<TeamMemberListProps> = ({
 				Team Members ({members.length})
 			</Typography>
 			<Stack spacing={2}>
-				{members.map((member) => (
+				{members.length > 0 && members.map((member) => (
 					<Box
 						key={member._id}
 						display="flex"
@@ -61,10 +61,10 @@ const TeamMemberList: React.FC<TeamMemberListProps> = ({
 					>
 						<Box display="flex" alignItems="center">
 							<Avatar sx={{ mr: 2 }}>
-								{member.name.charAt(0).toUpperCase()}
+								{member.username.charAt(0).toUpperCase()}
 							</Avatar>
 							<Box>
-								<Typography variant="body1">{member.name}</Typography>
+								<Typography variant="body1">{member.username}</Typography>
 								<Typography variant="body2" color="text.secondary">
 									{member.email}
 								</Typography>

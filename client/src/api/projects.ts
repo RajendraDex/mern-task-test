@@ -1,9 +1,28 @@
 import api from './api';
 import { Project, ApiResponse } from '../types';
 
-export const getProjects = async (): Promise<ApiResponse<Project[]>> => {
+interface IProjectPagination {
+	results: Project[];
+	limit: number;
+	page: number;
+	totalPages: number;
+	total: number;
+}
+
+export const getProjects = async (): Promise<ApiResponse<IProjectPagination>> => {
 	try {
-		const response = await api.get('/projects');
+		const data = {
+			page: 1,
+			limit: 10,
+			sortBy: {
+				name: 'createdAt',
+				order: 'asc'
+			},
+			filter: {
+				status: 'active'
+			}
+		}
+		const response = await api.post('/project/list', data);
 		return { data: response.data };
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to fetch projects' };
@@ -12,7 +31,7 @@ export const getProjects = async (): Promise<ApiResponse<Project[]>> => {
 
 export const getProjectById = async (id: string): Promise<ApiResponse<Project>> => {
 	try {
-		const response = await api.get(`/projects/${id}`);
+		const response = await api.get(`/project/${id}`);
 		return { data: response.data };
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to fetch project' };
@@ -21,7 +40,7 @@ export const getProjectById = async (id: string): Promise<ApiResponse<Project>> 
 
 export const createProject = async (project: Partial<Project>): Promise<ApiResponse<Project>> => {
 	try {
-		const response = await api.post('/projects', project);
+		const response = await api.post('/project/create', project);
 		return { data: response.data };
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to create project' };
@@ -33,7 +52,8 @@ export const updateProject = async (
 	project: Partial<Project>
 ): Promise<ApiResponse<Project>> => {
 	try {
-		const response = await api.put(`/projects/${id}`, project);
+		const updatePayload = { name: project.name, description: project.description }
+		const response = await api.put(`/project/${id}`, updatePayload);
 		return { data: response.data };
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to update project' };
@@ -42,7 +62,7 @@ export const updateProject = async (
 
 export const deleteProject = async (id: string): Promise<ApiResponse<void>> => {
 	try {
-		await api.delete(`/projects/${id}`);
+		await api.delete(`/project/${id}`);
 		return { message: 'Project deleted successfully' };
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to delete project' };

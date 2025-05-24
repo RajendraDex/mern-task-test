@@ -3,7 +3,7 @@ import { User, ApiResponse } from '../types';
 
 export const getAllUsers = async (): Promise<ApiResponse<User[]>> => {
 	try {
-		const response = await api.get('/users');
+		const response = await api.get('/user');
 		return { data: response.data };
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to fetch users' };
@@ -12,7 +12,7 @@ export const getAllUsers = async (): Promise<ApiResponse<User[]>> => {
 
 export const searchUsers = async (query: string): Promise<ApiResponse<User[]>> => {
 	try {
-		const response = await api.get('/users/search', { params: { q: query } });
+		const response = await api.get('/user/search', { params: { q: query } });
 		return { data: response.data };
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to search users' };

@@ -19,8 +19,11 @@ const ProjectsPage: React.FC = () => {
 	const fetchProjects = async () => {
 		setLoading(true);
 		const { data, error } = await getProjects();
+
+		console.log("🚀 ---------- ProjectsPage.tsx:23 ---------- fetchProjects ---------- data:", data);
+
 		if (data) {
-			setProjects(data);
+			setProjects(data.results);
 		} else {
 			console.error(error);
 		}
