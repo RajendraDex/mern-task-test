@@ -1,75 +1,134 @@
-can you write readme.md file 
-for this  
-🔧 MERN Stack Developer Test Task
-🧪 Task Title: "Collaborative Project Management Tool"
-📋 Objective:
-Build a simplified project management web application that allows users to:
-● Register and log in
-● Create and manage projects
-● Add tasks to projects
-● Collaborate with team members
-● Track project progress with status updates
-🕰 Estimated Time to Complete:
-12–15 hours (not all at once – this simulates a real-world sprint)
- Technical Requirements
-Frontend:
-● React.js with functional components and Hooks
-● Global state management (e.g., Context API or Redux)
-● Responsive UI using any UI framework (MUI, Bootstrap, Tailwind, or custom CSS)
-● React Router for page navigation
-Backend:
-● Node.js + Express.js
-● RESTful API with CRUD operations
-● JWT-based authentication and route protection
-Database:
-● MongoDB (use MongoDB Atlas or local instance)
-Features to Implement:
-🔐 Authentication:
-● User registration & login
-● JWT token handling
-● Role support: Admin, Member
-📁 Project Management:
-● Create, edit, delete projects
-● Assign team members to projects
-● Only project owners can edit/delete the project
-📝 Task Management:
-● Create tasks under projects
-● Assign task status (e.g., Todo, In Progress, Completed)
-● Track tasks per user
-👥 Team Collaboration:
-● Add/remove users from projects
-● View tasks assigned to each team member
-📊 Dashboard:
-● Show stats like total projects, completed tasks, pending tasks
-📦 Bonus (Optional, but appreciated):
-● Use of TypeScript
-● Dockerize the app
-● Unit and integration tests (Jest, React Testing Library, Mocha, etc.)
-● Deployment on Render, Vercel, Netlify, or any free-tier cloud
-🚫 Restrictions
-● Do not use pre-built project templates (e.g., create-react-app boilerplates are okay,
-but no low-code platforms)
-● Do not use code generators (e.g., Copilot, AI code completion tools)
-● Code must be clean, modular, and readable with meaningful commit history
-● Do not hardcode sensitive data (use .env for secrets/configs)
-📤 Submission Instructions
-1. Code Hosting:
-○ Push your code to a public GitHub repository.
-○ Include separate folders for client and server.
-2. Documentation:
-○ Add a README.md with:
-■ Setup instructions
-■ Architecture overview
-■ Technologies used
-■ API documentation
-■ Screenshots (if applicable)
-3. Final Submission:
-○ Share the GitHub repo link.
-○ (Optional) Provide a deployed live demo link.
-✅ Evaluation Criteria
-● Code quality, structure, and documentation
-● Full-stack integration and API design
-● Authentication and security practices
-● Error handling and validation
-● UX and UI design decisions
-● Git usage (commit history, branches if any)
+# 📘 Project Management & Task Tracking App
+
+A full-featured project and task management system with authentication, role-based access control, and collaborative tools.
+
+---
+
+## 🚀 Setup Instructions
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-repo/project-management.git
+cd project-management
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+# or
+yarn install
+```
+
+### 3. Configure environment
+
+Create a `.env` file from the sample:
+
+```bash
+cp .env.example .env
+```
+
+Update MongoDB URI, JWT secrets, and other configs.
+
+### 4. Run the development server
+
+```bash
+npm run dev
+```
+
+### 5. Build for production
+
+```bash
+npm run build
+```
+
+---
+
+## 🧱 Architecture Overview
+
+* **Backend:** Node.js + Express.js + MongoDB
+* **Frontend:** React + TypeScript + MUI
+* **Authentication:** JWT + Role-based access
+* **ORM:** Mongoose
+* **Validation:** Joi
+* **Logging/Error:** Custom middleware + `ApiError`
+
+```
+📦 src
+├── api/               # External API handlers
+├── controllers/       # Route controllers
+├── middlewares/       # Auth, error, validation
+├── models/            # Mongoose schemas
+├── routes/            # Express routes
+├── services/          # Business logic
+├── types/             # Shared types/enums
+├── utils/             # Helpers (pagination, jwt, etc)
+└── validations/       # Joi validators
+```
+
+---
+
+## 🛠 Technologies Used
+
+* **Frontend:** React, React Router, MUI, Formik
+* **Backend:** Node.js, Express.js, Mongoose
+* **Database:** MongoDB
+* **Auth:** JWT (Access + Refresh), Role-based
+* **Testing:** Jest (optional)
+
+---
+
+## 📚 API Documentation
+
+### 🔐 Auth
+
+* `POST /auth/register` - Register user
+* `POST /auth/login` - Login
+* `POST /auth/logout` - Logout
+* `GET /auth/me` - Get current user
+
+### 📁 Projects
+
+* `POST /projects/create` - Create a project
+* `PUT /projects/:projectId` - Update
+* `DELETE /projects/:projectId` - Remove
+* `POST /projects/list` - List w/ pagination
+* `GET /projects/:projectId` - View details
+* `POST /projects/:projectId/add-member` - Assign members
+
+### 📋 Tasks
+
+* `POST /create-project-tasks/:projectId` - Create task
+* `PATCH /update-task-status/:taskId` - Update status
+* `GET /get-user-task/:userId` - Get user's tasks
+
+### 📊 Dashboard
+
+* `GET /dashboard/stats` - Project/task stats
+* `GET /dashboard/user-stats` - Tasks grouped by user
+* `GET /dashboard/project-progress` - Task completion per project
+
+---
+
+## 🖼️ Screenshots
+
+![Dashboard](docs/screens/dashboard.png)
+![Projects](docs/screens/projects.png)
+![Tasks](docs/screens/tasks.png)
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repo
+2. Create your feature branch (`git checkout -b feature/new-feature`)
+3. Commit your changes (`git commit -m 'Add new feature'`)
+4. Push to the branch (`git push origin feature/new-feature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+MIT © 2025 Your Name
