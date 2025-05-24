@@ -23,6 +23,14 @@ export class ProjectController {
 			next(err);
 		}
 	}
+	static async getProjectMembers(req: IRequest, res: Response, next: NextFunction) {
+		try {
+			const updatedProject = await projectService.getProjectTeam(req.params.projectId);
+			res.status(httpStatus.OK).json(updatedProject);
+		} catch (err) {
+			next(err);
+		}
+	}
 
 	static async update(req: IRequest, res: Response, next: NextFunction) {
 		try {

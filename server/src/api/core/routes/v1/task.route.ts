@@ -2,7 +2,7 @@ import { Router } from '../../types/classes';
 import { authGuard } from '../../middlewares/guard.middleware';
 import { Validator } from '../../middlewares/validator.middleware';
 import { TaskController } from '../../controllers/task.controller';
-import { createTask, updateTaskStatus, getUserTasks } from '../../validations/task.validation';
+import { createTask, updateTaskStatus, getUserTasks, getTaskList } from '../../validations/task.validation';
 import { ROLE } from '../../types/enums';
 import { get } from 'http';
 
@@ -19,7 +19,7 @@ export class TaskRouter extends Router {
 		 * @apiPermission authenticated
 		 */
 		this.router
-			.route('/create-project-tasks/:projectId')
+			.route('/create')
 			.post(
 				authGuard.authenticate,
 				Validator.check(createTask),
@@ -50,6 +50,18 @@ export class TaskRouter extends Router {
 				authGuard.authenticate,
 				Validator.check(getUserTasks),
 				TaskController.getByUser
+			);
+		/**
+		 * @api {get} /task/list  Get Tasks by projectId
+		 * @apiGroup Tasks
+		 * @apiPermission authenticated
+		 */
+		this.router
+			.route('/list')
+			.post(
+				authGuard.authenticate,
+				Validator.check(getTaskList),
+				TaskController.getTaskList
 			);
 	}
 }

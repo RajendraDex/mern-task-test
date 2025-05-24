@@ -22,6 +22,11 @@ const taskSchema = new Schema<ITask>({
 		enum: ['todo', 'in-progress', 'completed'],
 		default: 'todo'
 	},
+	priority: {
+		type: String,
+		enum: ['low', 'medium', 'high'],
+		default: 'low'
+	},
 	dueDate: { type: Date }
 },
 	{ timestamps: true });

@@ -2,7 +2,7 @@ import { Router } from '../../types/classes';
 import { authGuard } from '../../middlewares/guard.middleware';
 import { Validator } from '../../middlewares/validator.middleware';
 import { ProjectController } from '../../controllers/project.controller';
-import { projectList, createProject, updateProject, assignMembers, removeMembers, getProject } from '../../validations/project.validation';
+import { projectList, createProject, updateProject, assignMembers, removeMembers, getProject, getProjectMembers } from '../../validations/project.validation';
 import { ROLE } from '../../types/enums';
 
 export class ProjectRouter extends Router {
@@ -89,6 +89,19 @@ export class ProjectRouter extends Router {
 				authGuard.authorize([ROLE.admin, ROLE.member]),
 				Validator.check(removeMembers),
 				ProjectController.removeMembers
+			);
+		/**
+		 * @api {post} /project/remove-project-member/:id remove Members
+		 * @apiGroup Projects
+		 * @apiPermission projectOwner
+		 */
+		this.router
+			.route('/get-project-team/:projectId')
+			.get(
+				authGuard.authenticate,
+				authGuard.authorize([ROLE.admin, ROLE.member]),
+				Validator.check(getProjectMembers),
+				ProjectController.getProjectMembers
 			);
 	}
 }

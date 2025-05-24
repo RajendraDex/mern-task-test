@@ -50,9 +50,13 @@ class AuthController {
 				res.status(httpStatus.BAD_REQUEST).json({ status: httpStatus.BAD_REQUEST, message: 'Token generation failed' });
 				return;
 			}
+
 			const newUser = {
+				_id: user._id,
 				email: user.email,
 				username: user.username,
+				name: user.username,
+				role: user.role
 			}
 			res.status(201).json(
 				{
@@ -91,7 +95,16 @@ class AuthController {
 				{
 					status: httpStatus.OK,
 					message: 'User logged in',
-					data: { token, user: { email: user.email, username: user.username } }
+					data: {
+						token,
+						user: {
+							_id: user._id,
+							email: user.email,
+							username: user.username,
+							name: user.username,
+							role: user.role
+						}
+					}
 				}
 			)
 		} catch (e) {
@@ -103,7 +116,7 @@ class AuthController {
 	async logout(req: IRequest, res: Response): Promise<void> {
 		const userId = req.user._id as ObjectId;
 		await authService.revokeRefreshToken(userId);
-		res.status(httpStatus.OK).json({ status: httpStatus.OK, message: 'User logged out' });
+		res.status(httpStatus.NO_CONTENT).json({ status: httpStatus.OK, message: 'User logged out' });
 	}
 
 	// /**

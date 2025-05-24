@@ -1,6 +1,6 @@
 import mongoose, { ObjectId, Types } from 'mongoose';
 import { Project } from '../models/project.model';
-import { IProject } from '../models/interfaces';
+import { IProject, ITeamMember } from '../models/interfaces';
 import { ApiError } from '../utils/apiError.util';
 import httpStatus from 'http-status';
 import { toObjectId } from '../utils/mogoose.util';
@@ -33,10 +33,22 @@ export class ProjectService {
 
 	async getProjectDetails(projectId: string): Promise<IProject | null> {
 		const projectObjectId = toObjectId(projectId);
-		const project = await Project.findOne({ _id: projectObjectId });
+		const project = await Project.findOne({ _id: projectObjectId }).populate('owner', 'username email role');
 		if (!project) throw new ApiError(httpStatus.NOT_FOUND, 'Project not found');
 		return project;
 	}
+
+	async getProjectTeam(projectId: string): Promise<IProject> {
+		const projectObjectId = toObjectId(projectId);
+		const project = await Project.findOne({ _id: projectObjectId }).populate('members', 'username email role');
+
+		if (!project || !project.members || project.members.length === 0) {
+			throw new ApiError(httpStatus.NOT_FOUND, 'Project not found or has no members');
+		}
+
+		return project;
+	}
+
 
 	async remove(ownerId: string, projectId: string): Promise<void> {
 		const project = await Project.findOne({ _id: toObjectId(projectId), owner: toObjectId(ownerId) });
@@ -91,7 +103,7 @@ export class ProjectService {
 				.limit(limit)
 				.populate('members', 'username email')
 				.sort(sort),
-			Project.countDocuments(filter),
+			Project.countDocuments(filterObject),
 		]);
 
 		const pagination = customPagination(results, page, limit, total);
