@@ -10,6 +10,11 @@
 
 # production
 /build
+/server/build
+/dist
+/server/dist
+/server/node_modules
+/server/package-lock.json
 
 # misc
 .DS_Store
