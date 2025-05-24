@@ -3,6 +3,7 @@ export interface User {
 	_id: string;
 	name: string;
 	email: string;
+	username: string
 	role: 'admin' | 'member';
 }
 
@@ -36,7 +37,7 @@ export interface AuthContextType {
 	user: User | null;
 	token: string | null;
 	login: (email: string, password: string) => Promise<void>;
-	register: (name: string, email: string, password: string) => Promise<void>;
+	register: (username: string, email: string, password: string) => Promise<void>;
 	logout: () => void;
 	isAuthenticated: boolean;
 }
@@ -89,4 +90,32 @@ export interface AddTeamMemberRequest {
 export interface RemoveTeamMemberRequest {
 	projectId: string;
 	userId: string;
+}
+
+
+
+export interface DashboardStats {
+	totalProjects: number;
+	totalTasks: number;
+	completedTasks: number;
+	pendingTasks: number;
+	overdueTasks: number;
+	teamMembers: number;
+}
+
+export interface UserTaskStats {
+	userId: string;
+	name: string;
+	totalTasks: number;
+	completedTasks: number;
+	pendingTasks: number;
+}
+
+export interface ProjectProgress {
+	projectId: string;
+	title: string;
+	totalTasks: number;
+	completedTasks: number;
+	completionPercentage: number;
+	pendingTasks: number;
 }

@@ -1,6 +1,7 @@
 import { Schema, Document, Types } from 'mongoose';
 
 export interface IProject extends Document {
+	_id: Schema.Types.ObjectId;
 	name: string;
 	description: string;
 	owner: Schema.Types.ObjectId;

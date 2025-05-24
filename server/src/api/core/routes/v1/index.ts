@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import { IRoute } from '../../types/interfaces';
 
-// import { MainRouter } from './main.route';
+import { MainRouter } from './main.route';
 import { AuthRouter } from './auth.route';
 // import { MediaRouter } from './media.route';
 // import { UserRouter } from './user.route';
@@ -28,7 +28,7 @@ class ProxyRouter {
 	 * @description Routes descriptions
 	 */
 	private readonly routes: Array<{ segment: string, provider: any }> = [
-		// { segment: '', provider: MainRouter },
+		{ segment: '/main/', provider: MainRouter },
 		{ segment: '/auth/', provider: AuthRouter },
 		// { segment: '/medias/', provider: MediaRouter },
 		// { segment: '/users/', provider: UserRouter },

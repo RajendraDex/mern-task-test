@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Box, Typography, Button } from '@mui/material';
 import TaskForm from '../../components/tasks/TaskForm';
 import TaskList from '../../components/tasks/TaskList';
-import { getTasksByProject, createTask, deleteTask } from '../../api/tasks';
+import { getTasksByProject, createTask, deleteTask, updateTaskStatus } from '../../api/tasks';
 import { Task } from '../../types';
 import { useAuth } from '../../context/AuthContext';
 

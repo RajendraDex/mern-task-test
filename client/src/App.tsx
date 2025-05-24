@@ -9,7 +9,7 @@ import ProjectsPage from './pages/Projects/ProjectsPage';
 import ProjectDetailPage from './pages/Projects/ProjectDetailPage';
 import TasksPage from './pages/Tasks/TasksPage';
 
-// Add this route inside your PrivateRoute
+
 const App: React.FC = () => {
   return (
     <AuthProvider>
@@ -21,8 +21,8 @@ const App: React.FC = () => {
             <Route index element={<DashboardPage />} />
             <Route path="projects" element={<ProjectsPage />} />
             <Route path="projects/:id" element={<ProjectDetailPage />} />
-            <Route path="tasks" element={<TasksPage />} />
             <Route path="projects/:projectId/tasks" element={<TasksPage />} />
+            <Route path="tasks" element={<TasksPage />} />
           </Route>
         </Routes>
       </Router>

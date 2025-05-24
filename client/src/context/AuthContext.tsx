@@ -31,17 +31,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 	const login = async (email: string, password: string) => {
 		const { data, error } = await apiLogin(email, password);
+
+
 		if (error || !data) {
 			throw new Error(error || 'Login failed');
 		}
 
-		localStorage.setItem('token', data.token);
+		const token = data.token?.access?.token;
+		localStorage.setItem('token', token);
+		localStorage.setItem('tokenExpireTime', data.token.access.expires);
 		setUser(data.user);
-		setToken(data.token);
+		setToken(token);
 	};
 
-	const register = async (name: string, email: string, password: string) => {
-		const { data, error } = await apiRegister(name, email, password);
+	const register = async (username: string, email: string, password: string) => {
+		const { data, error } = await apiRegister(username, email, password);
 		if (error || !data) {
 			throw new Error(error || 'Registration failed');
 		}
