@@ -12,7 +12,7 @@ interface ITaskPagination {
 export const getTasksByProject = async (projectId: string): Promise<ApiResponse<Task[]>> => {
 	try {
 		const response = await api.get(`/task/project/${projectId}`);
-		return { data: response.data?.tasks };
+		return response.data;
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to fetch tasks' };
 	}
@@ -41,7 +41,7 @@ export const getTasksByProjectId = async (projectId: string, filter: Record<stri
 export const getTaskById = async (id: string): Promise<ApiResponse<Task>> => {
 	try {
 		const response = await api.get(`/tasks/${id}`);
-		return { data: response.data };
+		return response.data;
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to fetch task' };
 	}
@@ -50,7 +50,7 @@ export const getTaskById = async (id: string): Promise<ApiResponse<Task>> => {
 export const createTask = async (task: TaskFormValues): Promise<ApiResponse<Task>> => {
 	try {
 		const response = await api.post(`task/create`, task);
-		return { data: response.data };
+		return response.data;
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to create task' };
 	}
@@ -62,7 +62,7 @@ export const updateTask = async (
 ): Promise<ApiResponse<Task>> => {
 	try {
 		const response = await api.put(`/tasks/${id}`, task);
-		return { data: response.data };
+		return response.data;
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to update task' };
 	}
@@ -83,7 +83,7 @@ export const updateTaskStatus = async (
 ): Promise<ApiResponse<Task>> => {
 	try {
 		const response = await api.patch(`/tasks/${id}/status`, { status });
-		return { data: response.data };
+		return response.data;
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to update task status' };
 	}

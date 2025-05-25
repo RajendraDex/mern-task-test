@@ -1,6 +1,9 @@
 import { ObjectId } from 'mongoose';
 import { User } from '../models';
 import { IUser } from '../models/interfaces'
+import { customPagination } from '../utils/pagination.util'
+import { ListOptions } from '../types/interfaces';
+import { toObjectId } from '../utils/mogoose.util';
 
 class UserService {
 
@@ -29,30 +32,51 @@ class UserService {
 		return user;
 	}
 
-	async createUser(userData: IUser): Promise<IUser> {
-
-		console.log("🚀 ---------- user.service.ts:27 ---------- UserService ---------- createUser ---------- userData:", userData);
-
+	async createUser(userData: Partial<IUser>): Promise<IUser> {
 		const user = new User(userData);
-
-		console.log("🚀 ---------- user.service.ts:31 ---------- UserService ---------- createUser ---------- user:", user);
-
 		await user.save();
 		return user;
 	}
 
-	// Example method to update an existing user
+
 	async updateUser(userId: string, userData: Partial<IUser>): Promise<IUser | null> {
-		// Implement the logic to update an existing user
-		return null; // Placeholder return value
+		return await User.findByIdAndUpdate(toObjectId(userId), userData, { new: true });
 	}
 
-	// Example method to delete a user
 	async deleteUser(userId: string): Promise<boolean> {
-		// Implement the logic to delete a user
-		return true; // Placeholder return value
+		await User.deleteOne({ _id: toObjectId(userId) });
+		return true;
 	}
-	// Add your service methods here
+
+	async list(options: ListOptions): Promise<{ results: IUser[]; total: number; page: number; limit: number }> {
+
+		const { page = 1, limit = 10, filter, sortBy } = options;
+
+		const filterObject: Record<string, any> = {
+			...filter,
+		};
+
+		if (filter.username) filterObject.username = { $regex: filter.username, $options: 'i' };
+
+		const sort: Record<string, 1 | -1> = {};
+		if (sortBy?.name) {
+			sort[sortBy.name] = sortBy.order === 'asc' ? 1 : -1;
+		} else {
+			sort['createdAt'] = -1;
+		}
+
+		const skip = (page - 1) * limit;
+		const [results, total] = await Promise.all([
+			User.find(filterObject)
+				.skip(skip)
+				.limit(limit)
+				.sort(sort),
+			User.countDocuments(filterObject),
+		]);
+
+		const pagination = customPagination(results, page, limit, total);
+		return pagination;
+	}
 }
 
 

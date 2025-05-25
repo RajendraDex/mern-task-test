@@ -12,7 +12,7 @@ export class TaskController {
 			res.status(httpStatus.CREATED).json({
 				status: httpStatus.CREATED,
 				message: `Task created successfully for porject ${req.params.projectId}`,
-				task
+				data: task
 			});
 		} catch (err) {
 			next(err);
@@ -25,7 +25,7 @@ export class TaskController {
 			res.status(httpStatus.OK).json({
 				status: httpStatus.OK,
 				message: 'Task status updated successfully',
-				task: updatedTask
+				data: updatedTask
 			});
 		} catch (err) {
 			next(err);
@@ -38,7 +38,7 @@ export class TaskController {
 			res.status(httpStatus.OK).json({
 				status: httpStatus.OK,
 				message: 'Task status updated successfully',
-				tasks
+				data: tasks
 			});
 		} catch (err) {
 			next(err);
@@ -58,7 +58,7 @@ export class TaskController {
 			res.status(httpStatus.OK).json({
 				status: httpStatus.OK,
 				message: 'Get tasks successfully',
-				tasks
+				data: tasks
 			});
 		} catch (err) {
 			next(err);

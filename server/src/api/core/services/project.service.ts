@@ -5,13 +5,7 @@ import { ApiError } from '../utils/apiError.util';
 import httpStatus from 'http-status';
 import { toObjectId } from '../utils/mogoose.util';
 import { customPagination } from '../utils/pagination.util';
-
-interface ListOptions {
-	page: number,
-	limit: number,
-	filter: Record<string, any>,
-	sortBy: { name: string, order: 'asc' | 'desc' }
-}
+import { ListOptions } from '../types/interfaces';
 
 export class ProjectService {
 

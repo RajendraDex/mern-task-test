@@ -7,7 +7,7 @@ export interface IUser extends Document {
 	email: string;
 	password: string;
 	role: 'admin' | 'member';
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt?: Date;
+	updatedAt?: Date;
 	comparePassword(password: string): boolean;
 }

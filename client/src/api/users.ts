@@ -1,10 +1,27 @@
 import api from './api';
 import { User, ApiResponse } from '../types';
 
-export const getAllUsers = async (): Promise<ApiResponse<User[]>> => {
+interface IUserPagination {
+	results: User[];
+	limit: number;
+	page: number;
+	totalPages: number;
+	total: number;
+}
+
+export const getAllUsers = async (filter: Record<string, any> = {}): Promise<ApiResponse<IUserPagination>> => {
 	try {
-		const response = await api.get('/user');
-		return { data: response.data };
+		const paylaod = {
+			page: 1,
+			limit: 10,
+			sortBy: {
+				name: 'createdAt',
+				order: 'asc'
+			},
+			filter
+		}
+		const response = await api.post('/user/list', paylaod);
+		return response.data;
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to fetch users' };
 	}

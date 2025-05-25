@@ -5,7 +5,7 @@ import { IRoute } from '../../types/interfaces';
 import { MainRouter } from './main.route';
 import { AuthRouter } from './auth.route';
 // import { MediaRouter } from './media.route';
-// import { UserRouter } from './user.route';
+import { UserRouter } from './user.route';
 import { TaskRouter } from './task.route';
 import { ProjectRouter } from './project.route';
 
@@ -31,7 +31,7 @@ class ProxyRouter {
 		{ segment: '/main/', provider: MainRouter },
 		{ segment: '/auth/', provider: AuthRouter },
 		// { segment: '/medias/', provider: MediaRouter },
-		// { segment: '/users/', provider: UserRouter },
+		{ segment: '/user/', provider: UserRouter },
 		{ segment: '/project/', provider: ProjectRouter },
 		{ segment: '/task/', provider: TaskRouter }
 	];
