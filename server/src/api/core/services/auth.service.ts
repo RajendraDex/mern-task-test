@@ -6,6 +6,7 @@ import { ROLE } from '../types/enums/role.enum';
 import { ApiError } from '../utils/apiError.util';
 import httpStatus from 'http-status';
 import { ObjectId } from 'mongoose';
+import { toObjectId } from '../utils/mogoose.util';
 
 
 class AuthService {
@@ -71,6 +72,15 @@ class AuthService {
 
 	async revokeRefreshToken(userId: ObjectId): Promise<void> {
 		await this.tokenService.removeToken(userId);
+	}
+
+	async getById(id: string): Promise<Partial<IUser>> {
+
+		const user = await User.findById(toObjectId(id)).select('-password');
+		if(!user) {
+           throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+		}
+		return user;
 	}
 
 }

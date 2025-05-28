@@ -112,6 +112,33 @@ class AuthController {
 		}
 	}
 
+	async getCurrentUser(req: IRequest, res: Response): Promise<void> {
+		try {
+			const userId = req.user?._id;
+			console.log('userId',userId)
+			const user = await authService.getById(userId);
+			if (!user) {
+				res.status(httpStatus.NOT_FOUND).json({ 
+					status: httpStatus.NOT_FOUND,
+					message: 'User not found' ,
+					data: null
+				});
+				return;
+			}
+			res.status(httpStatus.OK).json(
+				{
+					status: httpStatus.OK,
+					message: 'User get successfully',
+					data:user
+				});
+		} catch (err) {
+			res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+				status: httpStatus.INTERNAL_SERVER_ERROR,
+				message: 'Failed to fetch user',
+				data: null
+			});
+		}
+	}
 
 	async logout(req: IRequest, res: Response): Promise<void> {
 		const userId = req.user._id as ObjectId;

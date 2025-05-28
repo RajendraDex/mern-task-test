@@ -5,13 +5,7 @@ import httpStatus from 'http-status';
 import mongoose from 'mongoose';
 import { toObjectId } from '../utils/mogoose.util';
 import { customPagination } from '../utils/pagination.util';
-
-interface ListOptions {
-	page: number,
-	limit: number,
-	filter: Record<string, any>,
-	sortBy: { name: string, order: 'asc' | 'desc' }
-}
+import { ListOptions } from '../types/interfaces';
 
 export class TaskService {
 	async create(data: Partial<ITask>): Promise<ITask> {

@@ -55,14 +55,14 @@ const ProjectDetailPage: React.FC = () => {
 
 	// Add this effect to fetch available users
 	useEffect(() => {
-		// const fetchAvailableUsers = async () => {
-		// 	const { data } = await getAllUsers();
-		// 	if (data) {
-		// 		setAvailableUsers(data);
-		// 	}
-		// };
+		const fetchAvailableUsers = async () => {
+			const { data } = await getAllUsers();
+			if (data) {
+				setAvailableUsers(data.results);
+			}
+		};
 
-		// fetchAvailableUsers();
+		fetchAvailableUsers();
 	}, []);
 
 	// Add these handlers

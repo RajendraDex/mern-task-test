@@ -44,7 +44,7 @@ export const logout = async (): Promise<ApiResponse<{ status: number }>> => {
 export const getCurrentUser = async (): Promise<ApiResponse<User>> => {
 	try {
 		const response = await api.get('/auth/me');
-		return { data: response.data };
+		return response.data;
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to fetch user' };
 	}

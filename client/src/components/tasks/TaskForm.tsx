@@ -21,7 +21,7 @@ interface TaskFormProps {
 	onSubmit: (values: TaskFormValues) => void;
 	onCancel?: () => void;
 	projectId: string;
-	users: Array<{ _id: string; name: string }>;
+	users: Array<{ _id: string; username: string }>;
 }
 
 const TaskForm: React.FC<TaskFormProps> = ({
@@ -98,7 +98,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
 					>
 						{users.map((user) => (
 							<MenuItem key={user._id} value={user._id}>
-								{user.name}
+								{user.username}
 							</MenuItem>
 						))}
 					</Select>

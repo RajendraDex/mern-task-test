@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Grid, CircularProgress } from '@mui/material';
+import { Box, Grid, CircularProgress, GridProps } from '@mui/material';
 import StatCard from '../../components/dashboard/StatCard';
 import ProgressChart from '../../components/dashboard/ProgressChart';
 import UserTasksTable from '../../components/dashboard/UserTasksTable';
@@ -62,28 +62,21 @@ const DashboardPage: React.FC = () => {
 	return (
 		<Box sx={{ p: 3 }}>
 			<Grid container spacing={3}>
-
-				<Grid
-				// item xs={12} md={6} lg={3}
-				>
+				<Grid size={{ xs: 12, md: 6, lg: 2 }} >
 					<StatCard
 						title="Total Projects"
 						value={stats.totalProjects || 0}
 						icon={<FolderIcon color="primary" />}
 					/>
 				</Grid>
-				<Grid
-				// item xs={12} md={6} lg={3}
-				>
+				<Grid size={{ xs: 12, md: 6, lg: 2 }}>
 					<StatCard
 						title="Total Tasks"
 						value={stats.totalTasks || 0}
 						icon={<AssignmentIcon color="secondary" />}
 					/>
 				</Grid>
-				<Grid
-				// item xs={12} md={6} lg={3}
-				>
+				<Grid size={{ xs: 12, md: 6, lg: 2 }}>
 					<StatCard
 						title="Completed Tasks"
 						value={stats.completedTasks || 0}
@@ -92,9 +85,7 @@ const DashboardPage: React.FC = () => {
 						color="success"
 					/>
 				</Grid>
-				<Grid
-				// item xs={12} md={6} lg={3}
-				>
+				<Grid size={{ xs: 12, md: 6, lg: 2 }}>
 					<StatCard
 						title="Overdue Tasks"
 						value={stats.overdueTasks || 0}
@@ -102,39 +93,29 @@ const DashboardPage: React.FC = () => {
 						color="error"
 					/>
 				</Grid>
-
-
-				<Grid
-				// item xs={12} lg={8}
-				>
-					{projectProgress.length > 0 && <ProgressChart data={projectProgress} />}
-				</Grid>
-				<Grid
-				// item xs={12} lg={4}
-				>
+				<Grid size={{ xs: 12, md: 6, lg: 2 }}>
 					<StatCard
 						title="Team Members"
 						value={stats.teamMembers}
 						icon={<PeopleIcon color="info" />}
 					/>
-					<Box mt={3}>
-						<StatCard
-							title="Task Completion Rate"
-							value={`${Math.round((stats.completedTasks / stats.totalTasks) * 100) || 0}%`}
-							progress={(stats.completedTasks / stats.totalTasks) * 100 || 0}
-							color="primary"
-						/>
-					</Box>
 				</Grid>
-
-				<Grid
-				// item 
-				// xs={12}
-				>
+				<Grid size={{ xs: 12, md: 6, lg: 2 }} >
+					<StatCard
+						title="Task Completion Rate"
+						value={`${Math.round((stats.completedTasks / stats.totalTasks) * 100) || 0}%`}
+						progress={(stats.completedTasks / stats.totalTasks) * 100 || 0}
+						color="primary"
+					/>
+				</Grid>
+				<Grid size={{ xs: 12, lg: 6 }} sx={{ mt: 4, mb: 4 }}>
+					{projectProgress.length > 0 && <ProgressChart data={projectProgress} />}
+				</Grid>
+				<Grid size={{ xs: 12, lg: 6 }} sx={{ mt: 4, mb: 4 }}>
 					{userStats.length > 0 && <UserTasksTable data={userStats} />}
 				</Grid>
 			</Grid>
-		</Box>
+		</Box >
 	);
 };
 

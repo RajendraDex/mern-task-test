@@ -15,8 +15,8 @@ export const addTeamMember = async (
 ): Promise<ApiResponse<TeamMember>> => {
 	try {
 		const response = await api.post(`/project/add-project-member/${request.projectId}`, {
-			userId: request.userId,
-			role: request.role,
+			members: [request.userId],
+			// role: request.role,
 		});
 		return { data: response.data };
 	} catch (error: any) {
