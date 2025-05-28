@@ -64,7 +64,9 @@ export class AuthRouter extends Router {
 		this.router
 			.route('/login')
 			.post(Validator.check(login), AuthController.login);
-
+		this.router
+			.route('/me')
+			.get(authGuard.authenticate, AuthController.getCurrentUser);
 		/**
 		 * @api {post} /auth/logout Logout
 		 * @apiDescription Logout current user by refresh token revoke.

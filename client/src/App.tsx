@@ -9,10 +9,11 @@ import ProjectsPage from './pages/Projects/ProjectsPage';
 import ProjectDetailPage from './pages/Projects/ProjectDetailPage';
 import TasksPage from './pages/Tasks/TasksPage';
 import Layout from './components/layout/Layout';
+import {useAuth} from './context/AuthContext';
 
 const App: React.FC = () => {
   return (
-    <AuthProvider>
+    // <AuthProvider>
       <Router>
         <Routes>
           {/* Public routes */}
@@ -29,7 +30,7 @@ const App: React.FC = () => {
           </Route>
         </Routes>
       </Router>
-    </AuthProvider>
+    // </AuthProvider>
   );
 };
 

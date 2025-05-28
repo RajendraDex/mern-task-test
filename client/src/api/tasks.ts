@@ -32,7 +32,7 @@ export const getTasksByProjectId = async (projectId: string, filter: Record<stri
 			}
 		}
 		const response = await api.post(`/task/list`, paylaod);
-		return { data: response.data?.tasks };
+		return { data: response.data?.data };
 	} catch (error: any) {
 		return { error: error.response?.data?.message || 'Failed to fetch tasks' };
 	}
